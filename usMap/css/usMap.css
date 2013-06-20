@@ -1,8 +1,9 @@
 /* required styles */
 
 #map {
-			width: 100%;
+			width: 520px;
 			height: 330px;
+			margin-left:-15px;
 		}
 
 		.info {

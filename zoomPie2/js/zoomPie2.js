@@ -11,8 +11,8 @@ function init_code_hierarchy_plot(element_id,data,count_function,color_function,
 
     var width = plot.offsetWidth;
     var height = width;
-    var x_margin = 40;
-    var y_margin = 40;
+    var x_margin = 0;
+    var y_margin = 0;
     
     var max_depth=1;
     
@@ -268,7 +268,7 @@ function init_plots()
         return colorScale(d[2]);
     }
     
-    d3.select(self.frameElement).style("height", "800px");
+    d3.select(self.frameElement).style("height", "550px");
     init_code_hierarchy_plot("code_hierarchy",code_hierarchy_data,count_function,color_function,label_function,legend_function);
 }
 
