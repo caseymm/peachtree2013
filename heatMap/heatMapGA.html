@@ -2,63 +2,93 @@
 <html lang="en">
 <head>
         <link rel="stylesheet" href="css/GAmap.css" />
+        <link rel="stylesheet" href="css/leaflet.css" />
 <!--[if lte IE 8]>
 <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.4.4/leaflet.ie.css" />
 <![endif]-->
         <script type="text/javascript" src="js/jquery.js"></script>
-    <script src="http://cdn.leafletjs.com/leaflet-0.4.4/leaflet-src.js"></script>
+        <!--<script type="text/javascript" src="js/leaflet.js"></script>-->
+        <script type="text/javascript" src="js/leaflet-src.js"></script>
         <script type="text/javascript" src="js/heatmap.js"></script>
         <script type="text/javascript" src="js/heatmap-leaflet.js"></script>
  
+<body>
+    
+    <div id="heatmapArea" class="well" style="width:520px;margin-left:-15px;height:350px;cursor:pointer;position:relative;">
+
+                        </div>
+    
         <script type="text/javascript" charset="utf-8">
             $(function() {
- 
+
                 var baseLayer = L.tileLayer(
-                    'http://{s}.tile.cloudmade.com/ad132e106cd246ec961bbdfbe0228fe8/997/256/{z}/{x}/{y}.png',{
-                        attribution: 'Map data © <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>',
+                    'http://{s}.tile.cloudmade.com/825c6664ffdf4e619e51fb7dd3b47005/98490/256/{z}/{x}/{y}.png',{
+                        attribution: 'Map data &copy; 2011 OpenStreetMap contributors, Imagery &copy; 2011 CloudMade',
                         maxZoom: 18
                     }
                 );
- 
+
                 var heatmapLayer = L.TileLayer.heatMap({
-                    radius: 20,
-                    opacity: 0.8,
+                    radius: 25,
+                    opacity: .8,
                     gradient: {
-                        0.45: "rgb(0,0,255)",
-                        0.55: "rgb(0,255,255)",
-                        0.65: "rgb(0,255,0)",
-                        0.95: "yellow",
-                        1.0: "rgb(255,0,0)"
+                        0.5: "rgb(33,102,172)",
+                       
+                        1.0: "rgb(5,48,97)"
                     }
                 });
- 
+
                 heatmapLayer.addData(testData.data);
- 
+
                 var overlayMaps = {
                     'Heatmap': heatmapLayer
                 };
- 
+
                 var controls = L.control.layers(null, overlayMaps, {collapsed: false});
- 
+
                 var map = new L.Map('heatmapArea', {
-                    center: new L.LatLng(51.505, -0.09),
-                    zoom: 6,
+                    center: new L.LatLng(33.922851,-84.292603),
+                    zoom: 9,
                     layers: [baseLayer, heatmapLayer]
                 });
- 
+
                 controls.addTo(map);
- 
+
                 // make accessible for debugging
                 layer = heatmapLayer;
             });
         </script>
   </head>
-  <body>
+
 <script type="text/javascript" charset="utf-8">
             var testData={
-            max: 46,
-            data: [{lat: 33.5363, lon:-117.044, value: 1},{lat: 33.5608, lon:-117.24, value: 1}]
+            max: 29.9,
+            data: [
+                   {lat: 34.075697, lon:-84.294319, value: 4},
+                   {lat: 33.748893, lon:-84.38736, value: 29.9},
+                   {lat: 34.237351, lon:-84.490013, value: 1.2},
+                   {lat: 34.207543, lon:-84.139309, value: 2.7},
+                   {lat: 33.774867, lon:-84.296036, value: 3.5},
+                   {lat: 33.750035, lon:-84.747162, value: 1.1},
+                   {lat: 34.002297, lon:-84.143944, value: 1.5},
+                   {lat: 33.945923, lon:-84.333801, value: 1.3},
+                   {lat: 33.449777, lon:-84.47525, value: 1.1},
+                   {lat: 34.029331, lon:-84.196815, value: 1.1},
+                   {lat: 34.022502, lon:-84.613953, value: 1.6},
+                   {lat: 33.955037, lon:-83.987389, value: 2.9},
+                   {lat: 33.890367, lon:-84.143085, value: 1.1},
+                   {lat: 33.952474, lon:-84.548378, value: 6.5},
+                   {lat: 33.447198, lon:-84.14463, value: 1.2},
+                   {lat: 33.941366, lon:-84.213123, value: 1.3},
+                   {lat: 33.85887, lon:-84.68399, value: 1.0},
+                   {lat: 34.023071, lon:-84.358521, value: 3.2},
+                   {lat: 33.856446, lon:-84.020348, value: 1.1},
+                   {lat: 33.878397, lon:-84.511642, value: 2.1},
+                   {lat: 34.051095, lon:-84.070301, value: 1.6},
+                   {lat: 34.101571, lon:-84.518852, value: 1.5}
+                   ]
         };
 </script>
+
   </body>
 </html>

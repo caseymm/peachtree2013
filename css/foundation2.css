@@ -3,7 +3,16 @@
 }
 
 .locHeight{
-  height: 650px;
+  height: 575px;
+}
+
+.blue{
+  color: #2166ac;
+}
+
+.text{
+  font-size:14px;
+  line-height:20px;
 }
 
 *,
@@ -1083,10 +1092,10 @@ h1, h2, h3, h4, h5, h6 {
     line-height: 0; }
 
 h1 {
-  font-size: 2.125em; }
+  font-size: 2.7em; }
 
 h2 {
-  font-size: 1.6875em; }
+  font-size: 23.25px; }
 
 h3 {
   font-size: 1.375em; }
@@ -1824,7 +1833,7 @@ button, .button {
     .section-container.tabs > section.active > .content, .section-container.tabs > .section.active > .content {
       position: relative; }
 
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 1600px) {
   .section-container.auto {
     border: 0;
     position: relative; }
@@ -1844,7 +1853,7 @@ button, .button {
           white-space: nowrap; }
         .section-container.auto > section > .title:hover, .section-container.auto > .section > .title:hover {
           background-color: #4393c3;
-          color:#ffffff;}
+          color:#fff;}
       .section-container.auto > section .content, .section-container.auto > .section .content {
         display: none;
         padding: 0.9375em;
@@ -1875,10 +1884,12 @@ button, .button {
         border-right: solid 1px #cccccc; }
       .section-container.auto > section .content, .section-container.auto > .section .content {
         border: solid 1px #cccccc;
+        -webkit-box-shadow: 2px 2px 5px 3px rgba(0, 0, 0, .2);
+        box-shadow: 2px 2px 5px 3px rgba(0, 0, 0, .2)
         position: absolute;
         z-index: 10;
         display: none;
-        top: 49px; }
+        top: 48px; }
       .section-container.auto > section.active > .title, .section-container.auto > .section.active > .title {
         z-index: 11;
         border-bottom: 0;

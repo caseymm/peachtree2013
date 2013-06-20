@@ -1,6 +1,4 @@
-
-
-function init_code_hierarchy_plot(element_id,data,count_function,color_function,title_function,legend_function)
+function init_code_hierarchy_plot(element_id,data)
 {
     var plot = document.getElementById(element_id);
 
@@ -11,13 +9,17 @@ function init_code_hierarchy_plot(element_id,data,count_function,color_function,
 
     var width = plot.offsetWidth;
     var height = width;
-    var x_margin = 0;
-    var y_margin = 0;
+    var x_margin = 40;
+    var y_margin = 40;
+    var name_index = 0;
+    var count_index = 1;
+    var children_index = 3;
     
-    var max_depth=1;
+    var max_depth=3;
     
     var data_slices = [];
     var max_level = 4;
+    var color = d3.scale.category20c();
 
     var svg = d3.select("#"+element_id).append("svg")
         .attr("width", width)
@@ -28,8 +30,8 @@ function init_code_hierarchy_plot(element_id,data,count_function,color_function,
     function process_data(data,level,start_deg,stop_deg)
     {
         var name = data[0];
-        var total = count_function(data);
-        var children = data[2];
+        var total = data[1];
+        var children = data[3];
         var current_deg = start_deg;
         if (level > max_level)
         {
@@ -39,15 +41,11 @@ function init_code_hierarchy_plot(element_id,data,count_function,color_function,
         {
             return;
         }
-        
-        //var t = 5.7*((100/totalsArr[i]).toFixed(2));
-        //area for messing with overlap and not matching percentages
-        
-        data_slices.push([start_deg,stop_deg,name,level,data[1]]);
+        data_slices.push([start_deg,stop_deg,name,level,data[1],data[2]]);
         for (var key in children)
         {
             child = children[key];
-            var inc_deg = (stop_deg-start_deg)/total*(count_function(child));
+            var inc_deg = (stop_deg-start_deg)/total*child[count_index];
             var child_start_deg = current_deg;
             current_deg+=inc_deg;
             var child_stop_deg = current_deg;
@@ -70,7 +68,6 @@ function init_code_hierarchy_plot(element_id,data,count_function,color_function,
     .innerRadius(function(d) { return 1.1*d[3]*thickness; })
     .outerRadius(function(d) { return (1.1*d[3]+1)*thickness; });    
 
-    
     var slices = svg.selectAll(".form")
         .data(function(d) { return data_slices; })
         .enter()
@@ -78,13 +75,13 @@ function init_code_hierarchy_plot(element_id,data,count_function,color_function,
         slices.append("path")
         .attr("d", arc)
         .attr("id",function(d,i){return element_id+i;})
-        .style("fill", function(d) { return color_function(d);;})
+        .style("fill", function(d) { return color(d[2]);})
         .on("click",animate)
         .on("mouseover",update_legend)
         .on("mouseout",remove_legend)
         .attr("class","form")
         .append("svg:title")
-        .text(function(d) { return d[4][1]+"% of "+d[4][2]+" runners"; });
+        .text(function(d) { return d[2]+","+d[3]; });
 
 /*    slices.append("text")
         .style("font-size", "10px")
@@ -97,38 +94,6 @@ function init_code_hierarchy_plot(element_id,data,count_function,color_function,
         
     function update_legend(d)
     {
-        legend.html("<h2>"+d[2]+"&nbsp;</h2><p>"+d[4][1]+"% of "+d[4][2]+" runners </p>");
-        legend.transition().duration(200).style("opacity","1");
-        
-    }
-    
-    function remove_legend(d)
-    {
-        legend.transition().duration(1000).style("opacity","0");
-//        legend.html("<h2>&nbsp;</h2>")
-    }
-    
-    /*var slices = svg.selectAll(".form")
-        .data(function(d) { return data_slices; })
-        .enter()
-        .append("g");
-        slices.append("path")
-        .attr("d", arc)
-        .attr("id",function(d,i){return element_id+i;})
-        .style("fill", function(d) { return color_function(d);})
-        .attr("class","form");
-    slices.on("click",animate);
-    
-    
-
-    if (title_function != undefined)
-    {
-        slices.append("svg:title")
-              .text(title_function);        
-    }*/
-    
-    /*function update_legend(d)
-    {
         legend.html("<h2>"+d[2]+"&nbsp;</h2><p>"+d[4]+" characters, "+d[5]+" lines of code.</p>");
         legend.transition().duration(200).style("opacity","1");
     }
@@ -137,25 +102,8 @@ function init_code_hierarchy_plot(element_id,data,count_function,color_function,
     {
         legend.transition().duration(1000).style("opacity","0");
 //        legend.html("<h2>&nbsp;</h2>")
-    }*/
+    }
     
-    /*if (legend_function != undefined)
-    {
-        slices.on("mouseover",update_legend)
-              .on("mouseout",remove_legend);
-        var legend = d3.select("#"+element_id+"_legend")
-            
-        function update_legend(d)
-        {
-            legend.html(legend_function(d));
-            legend.transition().duration(200).style("opacity","1");
-        }
-        
-        function remove_legend(d)
-        {
-            legend.transition().duration(1000).style("opacity","0");
-        }
-    }*/
     function get_start_angle(d,ref)
     {
         if (ref)
@@ -287,44 +235,5 @@ function init_code_hierarchy_plot(element_id,data,count_function,color_function,
 
 function init_plots()
 {
-    
-    function count_function(d)
-    {
-        return d[1][0];
-    }
-    
-    function label_function(d)
-    {
-        //return d[2]+": "+d[4][0]+" runners, "+d[4][1]+"% of runners (gender)";
-        return d[4][1]+"% of "+d[4][2]+" runners";
-    }
-    
-    function legend_function(d)
-    {
-        //return "<h2>"+d[2]+"&nbsp;</h2><p>"+d[4][0]+" runners, "+d[4][1]+"% of runners (gender)</p>"
-        return "<h2>"+d[2]+"&nbsp;</h2><p>"+d[4][1]+"% of "+d[4][2]+" runners </p>"
-    }
-    
-    //var color = d3.scale.category20c();
-    
-    var colorScale = d3.scale.ordinal()
-    .domain(["#67001f","#b2182b","#d6604d","#f4a582","#fddbc7","#f7f7f7","#d1e5f0","#92c5de","#4393c3"])
-    .range(colorbrewer.RdBu[11]);
-
-    //function color_function(d)
-    //{
-    //    return color(d[2]);
-    //}
-    
-    function color_function(d)
-    {
-        return colorScale(d[2]);
-    }
-    
-    d3.select(self.frameElement).style("height", "550px");
-    init_code_hierarchy_plot("code_hierarchy",code_hierarchy_data,count_function,color_function,label_function,legend_function);
+    init_code_hierarchy_plot("code_hierarchy",code_hierarchy_data);
 }
-
-window.onload = init_plots;
-window.onresize = init_plots;
-

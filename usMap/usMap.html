@@ -21,7 +21,7 @@
 
 		var map = L.map('map')
                            .setView(new L.LatLng(37.8, -96),3); 
-                            map.setMaxBounds(map.getBounds()); 
+                            //map.setMaxBounds(map.getBounds()); 
                 
                 //var southWest = new L.LatLng(14.944785,-135.791016),
                     //northEast = new L.LatLng(50.903033,-60.556641),
@@ -29,9 +29,9 @@
                         
 
 		var cloudmade = L.tileLayer('http://{s}.tile.cloudmade.com/{key}/{styleId}/256/{z}/{x}/{y}.png', {
-			attribution: 'Map data &copy; 2011 OpenStreetMap contributors, Imagery &copy; 2011 CloudMade',
+			attribution: 'Map data &copy; 2013 OpenStreetMap contributors, Imagery &copy; 2013 CloudMade',
 			key: 'BC9A493B41014CAABB98F0471D759707',
-			styleId: 99642
+			styleId: 99928
 		}).addTo(map);
 
                 //22677
